@@ -1,0 +1,1187 @@
+ELső Anyag
+
+Egyszerű példa feladatok az elemi programozási tételekre. Adott egy 15 elemű tömb, mely 0 és 100
+között tartalmazza 15 tanuló elért pontszámait. Alkalmazzuk az elemi programozási tételeket!
+1. Számítsuk ki a csoport átlag pontszámát!
+2. Döntsük el volt-e MAX pontszám (100 pont)!
+3. Tudjuk, hogy volt 57 pontos dolgozat. Adjuk meg annak a tanulónak a sorszámát, aki 57 pontot
+kapott! Ha több van elég az elsőt! (az első elem sorszáma 0, de a tanulók számozása 1-el
+kezdődik)
+4. Kérjünk be egy pontszámot, és ha volt ilyen a tömbben adjuk meg a hozzá tartozó tanuló
+sorszámát!
+5. Hányan feleltek meg a vizsgán? (A pontszám>50)
+6. Hányadik tanuló érte el a legkevesebb pontot és az mennyi volt?
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication4
+{
+class Program
+{
+static void Main(string[] args)
+{
+int[] tomb = new int[15] { 1, 34, 56, 4, 57, 45, 67, 6, 43, 32, 33, 99, 33, 100, 1 };
+// 1, Összegzés - számítsuk ki a csoport átlag pontszámát
+int i, sum = 0;
+for (i = 0; i < 15; i++)
+{
+sum = sum + tomb[i];
+}
+Console.WriteLine( "A csoport atlagpontszama: {0} ", (float)sum / i );
+//2, Döntsük el volt - e MAX pontszám (100 pont)!
+i = 0;
+while (i < 15 && tomb[i] != 100)
+{
+i++;
+}
+if (i < 15) Console.WriteLine("Volt 100 pontos dolgozat" );
+else Console.WriteLine("Nem volt 100 pontos dolgozat");
+// Kiválasztás - Tudjuk, hogy volt 57 pont, adjuk meg a tanuló sorszámát!
+i = 0;
+while (tomb[i] != 57)
+{
+i++;
+}
+Console.WriteLine("A(z) {0}. tanuló ért el 57 pontot ", i+1);
+// lineáris keresés - Kérjünk be egy pontszámot, és ha volt ilyen a tömbben adjuk
+
+//meg a hozzá tartozó tanuló sorszámát!
+int pont;
+Console.WriteLine("Adjon meg egy pontszámot (0-100)");
+pont=int.Parse(Console.ReadLine());
+i=0;
+while (i < 15 && tomb[i] != pont)
+{
+i++;
+}
+if (i < 15) Console.WriteLine("A(z) {0}. tanuló kapott {1} pontot", i+1,pont );
+else Console.WriteLine("Nem volt {0} pontos dolgozat",pont);
+// Megszámlálás - Hányan feleltek meg a vizsgán? (A pontszám>50)
+int db_50pont = 0;
+for (i = 0; i < 15; i++)
+{
+if(tomb[i]>50) db_50pont++;
+}
+Console.WriteLine("{0} tanuló felelt meg a vizsgán", db_50pont);
+// Minimumkiválasztás - Hányadik tanuló érte el a legkevesebb pontot és az mennyi volt?
+int min = 0;
+for (i = 1; i < 15; i++)
+{
+if (tomb[i] < tomb[min]) min=i;
+}
+Console.WriteLine("A {0} tanuló érte el a legkevesebbet, {1} pontot", min+1,tomb[min]);
+}
+}
+}
+
+A Pontszam 8 elemű tömbben egy felmérő pontszámait helyeztük el (0-100) növekvő sorrendben.
+Határozzuk meg, hogy egy billentyűzetről bekért pontszám eleme-e a tömbnek, és ha igen hányadik?
+- LOGARITMIKUS KERESÉS
+namespace ConsoleApplication4
+using System;
+{ class Program
+{
+static void Main(string[] args)
+{
+int[] Pontszam = new int[8] { 2,67,78,89,90,92,95,100,};
+int pont, k, A = 0, F = 7;
+Console.WriteLine("Adja meg a keresett pontot!");
+pont=int.Parse(Console.ReadLine());
+do
+{
+k = (A + F) / 2;
+if (Pontszam[k] < pont) { A = k + 1; }
+if (Pontszam[k] > pont) { F = k - 1; }
+
+}
+while (A <= F && Pontszam[k] != pont);
+if (A <= F) Console.WriteLine("A keresett pont a Pontszam tömb {0} indexu eleme", k ); //0 az
+első elem
+else Console.WriteLine("A keresett pont nincs a Pontszam tömbben");
+}
+}
+}
+
+Adott egy távolugró verseny döntőjének 8 végeredménye
+1. Mennyi az ugrások átlaga?
+2. Volt-e érvénytelen ugrás?
+3. Hányan teljesítették az olimpiai szintet (> 800)
+4. Hányan ugrottak az átlag felet?
+using System;
+namespace ConsoleApp5
+{
+class _28_tavol
+{
+static void Main(string[] args)
+{
+int[] tavol = new int[] { 650, 0, 827, 820, 799, 850, 798, 770 };
+int i, atl = 0, db1=0,db2=0;
+//az ugarások átlaga
+for (i = 0; i <tavol.Length; i++)
+{
+atl = atl + tavol[i];
+}
+Console.WriteLine("Az ugrások átlaga: {0}", atl / tavol.Length);
+// Volt-e érvénytelen ugrás?
+i = 0;
+while (i < tavol.Length && tavol[i] != 0)
+i++;
+if (i < tavol.Length) Console.WriteLine("Volt érvénytelen eredmény.");
+else Console.WriteLine("Nem volt érvénytelen eredmény.");
+// Olimpiai szintet teljesítők, átlag felettiek száma
+for (i = 0; i < tavol.Length; i++)
+{
+if (tavol[i] > 800) db1++; //800 feletti ugrások száma
+if (tavol[i] > atl/tavol.Length) db2++; //átlag feletti ugrások száma
+}
+Console.WriteLine("{0} db 800cm feletti ugrás volt.", db1);
+Console.WriteLine("{0} db átlag feletti ugrása volt.", db2);
+}
+}
+}
+
+Adottak az A és B tömbök. Készítsük el a metszetüket és uniójukat!
+using System;
+namespace ConsoleApp5
+{
+class _28_tavol
+{
+static void Main(string[] args)
+{
+// Adatbevitel
+int [] A_tomb= new int[10] { 13, 28, 43, 37, 10, 5, 8, 99, 101, 2 };
+int[] B_tomb = new int[5] { 6, 43, 37, 10, 88 };
+int i, j, cdb = 0;
+int [] C_tomb=new int[15]; // metszethez is és sz unióhoz is használjuk majd
+// tömbök kiíratása
+Console.WriteLine("Az eredeti tömbök:");
+for (i = 0; i < 10; i++)
+{
+Console.Write("{0} ", A_tomb[i]);
+}
+Console.WriteLine();
+for (j = 0; j < 5; j++)
+{
+Console.Write("{0} ", B_tomb[j]);
+}
+// metszetképzés
+for (i = 0; i < 10; i++)
+{
+j = 0;
+while (j < 5 && A_tomb[i] != B_tomb[j])
+j++;
+if (j < 5) { C_tomb[cdb] = A_tomb[i]; cdb++; }
+}
+// metszet tömb kiíratása
+Console.WriteLine("\nA metszet tömb:");
+for (j = 0; j < cdb; j++)
+{
+Console.Write("{0} ", C_tomb[j]);
+}
+// unióképzés
+for (i = 0; i < 10; i++)
+{
+C_tomb[i] = A_tomb[i];
+}
+cdb = 10;
+for (j = 0; j < 5; j++)
+{
+i = 0;
+while (i < 10 && A_tomb[i] != B_tomb[j])
+i++;
+
+if (i > 9) { C_tomb[cdb] = B_tomb[j]; cdb++; }
+}
+// unio tömb kiíratása
+Console.WriteLine("\nAz unio tömb :");
+for (j = 0; j < cdb; j++)
+{
+Console.Write("{0} ", C_tomb[j]);
+}
+}
+}
+}
+
+Két tömb, két csoport (a-8 fős, b-5 fős) pontszámait tartalmazza rendezve.
+Fésüljük össze a pontszámokat (a pontszámok 0-100-ig lehetnek) a két tömb végére a 101-et mi
+rakjuk "kézzel" a tömbbe. Az egyenlő pontszámok esetén csak az egyik kerüljön a közös tömbbe!
+using System;
+namespace ConsoleApp5
+{
+class _28_tavol
+{
+static void Main(string[] args)
+{
+// Adatbevitel
+int i, j, cdb = 0;
+int[] psz_a= new int[9] { 11, 13, 19, 37, 45, 77, 86, 88, 101 }; // 101 beírtuk a tömb utolsó
+eleme után
+int[] psz_b= new int[6] { 1, 15, 77, 99, 100, 101 };
+int[] psz_ossz= new int[15];
+// tömbök kiíratása
+Console.WriteLine("Az a csoport pontjai:");
+for (i = 0; i < 8; i++)
+{
+Console.Write("{0} ",psz_a[i]);
+}
+Console.WriteLine("\nA b csoport pontjai:");
+for (j = 0; j < 5; j++)
+{
+Console.Write("{0} ", psz_b[j]);
+}
+// összefésülés
+i = 0; j = 0;
+cdb = -1;
+while (i < 9 || j < 6)
+{
+if (psz_b[j] > psz_a[i]) { cdb++; psz_ossz[cdb] = psz_a[i]; i++; } // sorrend nem mindegy
+if (psz_a[i] > psz_b[j]) { cdb++; psz_ossz[cdb] = psz_b[j]; j++; }
+if (psz_a[i] == psz_b[j]) { cdb++; psz_ossz[cdb] = psz_a[i]; i++; j++; }
+}
+
+// összefésült eredmény kiíratása
+Console.WriteLine("\nAz eredménytömb kiíratása:");
+for (j = 0; j < cdb; j++)
+{
+Console.Write("{0} ", psz_ossz[j]);
+}
+}
+}
+}
+
+Egy utazó ügynök az alábbi városokban járt januárban: Kecskemet, Szeged, Pecs, Baja, Gyor, Miskolc,
+Vac, Cegled, Sopron, Eger.
+Februárban az alábbi városokat látogatta meg: Budapest, Kecskemet, Szeged,Pecs,Baja, Esztergom,
+Salgotarjan
+Azt tudjuk, hogy egyik hónapban sem dolgozott 10 napnál többször.
+Készítsünk programot, mely kimutatja:
+1 - Hány városban járt januárban, ill. februárban?
+2 - Mely városokban járt mindkét hónapban?
+3 - Mely városokban volt legalább egyszer a két hónap alatt?
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication5
+{
+class Program
+{
+static void Main(string[] args)
+{
+int i, j, jdb, fdb, cdb = 0;
+string [] A =new string[] { "Kecskemet", "Szeged", "Pecs", "Baja",
+"Gyor", "Miskolc", "Vac", "Cegled", "Sopron", "Eger"};
+string [] B = new string[] { "Budapest", "Kecskemet", "Szeged",
+"Pecs", "Baja", "Esztergom", "Salgotarjan" };
+// 1.
+jdb = A.Length;
+fdb = B.Length;
+string [] C = new string[jdb+fdb];
+Console.WriteLine("{0} városban járt januárban.\n {1} városban járt februárban.", jdb, fdb);
+// Mindkét hónapban látogatta (metszet)
+for (i = 0; i < jdb; i++)
+{
+j = 0;
+while (j < fdb && A[i] != B[j])
+j++;
+if (j < fdb) { C[cdb] = A[i]; cdb++; }
+
+}
+Console.WriteLine("Az alábbi városokban járt mindkét hónapban :");
+for (i = 0; i < cdb; i++)
+Console.Write("{0}, ",C[i]);
+// Legalább az egyik hónapban látogatta (unió)
+for (i = 0; i < jdb; i++)
+{
+C[i] = A[i];
+}
+cdb = jdb;
+for (j = 0; j < fdb; j++)
+{
+i = 0;
+while (i < jdb && A[i] != B[j])
+i++;
+if (i > jdb - 1) { C[cdb] = B[j]; cdb++; }
+}
+Console.WriteLine("\nAz alábbi városokban járt legalább az egyik hónapban :");
+for (i = 0; i < cdb; i++)
+Console.Write("{0}, ", C[i]);
+}
+}
+}
+
+Második Anyag
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication5
+{ class Program
+{
+static void Main(string[] args)
+{
+int seged, ertek, i, j;
+int [ ] A= new int [] { 13, 28, 43, 37, 10, 5, 8, 99, 101, 25 };
+int db = A.Length;
+// rendezetlen tömb kiíratása
+Console.WriteLine("A tömb elemei rendezetlenül : ");
+for ( i = 0; i < db; i++)
+Console.Write("{0}, ", A[i]);
+/**************************************************/
+//rendezés közvetlen kiválasztással
+for( i=0;i<db-1;i++)
+{
+for( j=i+1;j<db;j++)
+{
+if(A[i]>A[j])
+{
+seged=A[i];
+A[i]=A[j];
+A[j]=seged;
+}
+}
+}
+/**************************************************/
+/* rendezés minimum kiválasztással
+for(i=0;i<db-1;i++)
+{
+seged=i;
+ertek=A[i];
+for(j=i+1;j<db;j++)
+{
+if(ertek>A[j])
+{
+ertek=A[j];
+seged=j;
+}
+}
+A[seged]=A[i];
+A[i]=ertek;
+}*/
+/**************************************************/
+
+/*buborékos rendezés
+for(i=1;i<db;i++)
+{
+for(j=db-1;j>=i;j--)
+{
+if(A[j]<A[j-1])
+{
+seged=A[j-1];
+A[j-1]=A[j];
+A[j]=seged;
+}
+}
+}*/
+/**************************************************/
+//egyszerű beillesztéses rendezés*/
+/*for (j = 1; j < db; j++)
+{
+i = j - 1;
+seged = A[j];
+while (i >= 0 && seged < A[i])
+{
+A[i + 1] = A[i];
+i--;
+}
+A[i + 1] = seged;
+}*/
+// rendezett tömb kiíratása
+Console.WriteLine("\nA tömb elemei rendezve : ");
+for (i = 0; i < db; i++)
+Console.Write("{0}, ", A[i]);
+}
+}
+}
+A városok tömbben néhány város nevét tároljuk. Rendezzük névsor szerint növekvő sorrendbe, majd
+írjuk ki a képernyőre.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication8
+{
+class Program
+{
+static void Main(string[] args)
+{
+string[] varosok = new string[] { "Cegled", "Pecs", "Vac", "Miskolc", "Ada", "Kaposvár" };
+// rendezés előtt
+
+Console.WriteLine("Rendezés előtt :");
+for (int i = 0; i < varosok.Length; i++)
+{
+Console.Write("{0} ", varosok[i]);
+}
+// rendezés
+for (int i = 0; i < varosok.Length-1; i++)
+{
+for (int j = i + 1; j < varosok.Length; j++)
+{
+if (varosok[i].CompareTo(varosok[j]) == 1) // 1 ha j van előbb -1 ha i 0 ha egyformák
+{
+string seged = varosok[i];
+varosok[i] = varosok[j];
+varosok[j] = seged;
+}
+}
+}
+// rendezés után
+Console.WriteLine("\nRendezés után :");
+for (int i = 0; i < varosok.Length; i++)
+{
+Console.Write("{0} ", varosok[i]);
+}
+Console.WriteLine();
+}
+}
+}
+Egy max 12 fős kosárlabda csapat adatait tároljuk egy struktúra tömbben.
+Tároljuk a játékosok nevét, magasságát, és dobott pontjait.
+1. Kérjük be ellenőrzötten a csapat létszámát (5-12)
+2. Töltsük fel a struktúratömböt adatokkal úgy, hogy a nevet billentyűzetről kérjük be, a
+magasságot és pontokat véletlengenerátorral állítsuk elő. A magasság 170- 220 cm, a dobott
+pontok 0-100 között lehetnek.
+3. Írassuk ki az adatokat táblázatosan!
+4. Számítsuk ki a csapat pont átlagát!
+5. Ki a legmagasabb (adjuk meg a nevét)
+6. Az ötven pont felett dobók száma
+7. Írja ki a képernyőre a játékosok nevét és dobott pontjait a pontok szerint növekvő sorrendben!
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+namespace ConsoleApplication13
+{
+class Program
+{
+struct kosar
+{
+
+public string nev;
+public int magassag;
+public int pont;
+}
+static void Main(string[] args)
+{
+int letszam;
+//1, Létszám ellenőrzött bekérése
+do
+{
+Console.WriteLine("Adja meg a létszámot 5-12 között!");
+letszam = int.Parse(Console.ReadLine());
+}
+while (letszam > 12 || letszam < 5);
+//2, Csapat adatainak bekérése
+kosar[] csapat = new kosar[letszam];
+Random rnd = new Random();
+for (int i = 0; i < letszam; i++)
+{
+Console.WriteLine("adja meg az {0}. játékos nevét :", i + 1);
+csapat[i].nev = Console.ReadLine();
+csapat[i].magassag = rnd.Next(170, 221);
+csapat[i].pont = rnd.Next(0, 101);
+}
+//3, Osztály adatainak táblázatos kiíratása
+Console.Clear();
+for (int i = 0; i < letszam; i++)
+{
+Console.WriteLine("{0}. {1,-20} {2, -5}{3,5}", i + 1, csapat[i].nev, csapat[i].magassag,
+csapat[i].pont);
+}
+//4, Számítsuk ki a csapat pont átlagát!
+float átl = 0;
+for (int i = 0; i < letszam; i++)
+{
+átl = átl + csapat[i].pont;
+}
+Console.WriteLine("A csapat pontátlaga: {0}", átl/letszam);
+//5, Legmagasabb játekos neve
+int max = 0;
+for (int i = 1; i < letszam; i++)
+{
+if (csapat[i].magassag > csapat[max].magassag) { max = i; }
+}
+Console.WriteLine("A legmagasabb jatekos neve: {0}", csapat[max].nev);
+//6, Az ötven pont felett dobók száma
+int db50 = 0;
+for (int i = 0; i < letszam; i++)
+
+{
+if (csapat[i].pont > 50)
+{
+db50++;
+}
+}
+Console.WriteLine("Az ötven pont felett dobók száma: {0}", db50);
+//7, Rendezés
+int j;
+for (int i = 0; i < letszam - 1; i++)
+{
+for (j = i + 1; j < letszam; j++)
+{
+if (csapat[i].pont > csapat[j].pont)
+{
+kosar seged = csapat[i];
+csapat[i] = csapat[j];
+csapat[j] = seged;
+}
+}
+}
+for (int i = 0; i < letszam; i++)
+{
+Console.WriteLine("{0}. {1,-20} {2,5} ", i + 1,csapat[i].nev,csapat[i].pont);
+}
+}
+}
+}
+
+Harmadik Anyag
+
+1. Feladat: allatok.txt állomány megnyitása írásra, 3 szó kiírása (ismétlés programozásból).
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+namespace ConsoleApplication15
+{
+class Program
+{
+static void Main(string[] args)
+{
+StreamWriter kiir = new StreamWriter("allatok.txt");
+kiir.WriteLine("kutya");
+kiir.WriteLine("lo");
+kiir.WriteLine("macska");
+kiir.Flush(); //puffer kiürítése
+kiir.Close(); //adatfolyam lezárása
+}
+}
+}
+2. Feladat: A városok.txt állományban max 20 db város neve van. Olvassuk be a városok nevét és
+írassuk ki a képernyőre (ismétlés programozásból).
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+namespace varosok
+{
+class Program
+{
+static void Main(string[] args)
+{
+StreamReader be = new StreamReader("varosok.txt"); // file megnyitása olvasásra
+while (!be.EndOfStream)
+{
+string seged = be.ReadLine();
+Console.WriteLine(seged);
+}
+be.Close();
+}
+}
+}
+
+3. Feladat: A városok.txt állományban maximum 20 db város neve van. Olvassuk be a városok nevét
+egy tömbbe, írassuk ki a tömb elemeit, írassuk ki, hány városban járt az ügynök, rendezzük, majd
+írassuk ki a rendezett tömböt a rendezettvarosok.txt állományba
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+namespace ConsoleApplication15
+{
+class _3_varosok_tombbe
+{
+static void Main(string[] args)
+{
+StreamReader be = new StreamReader("varosok.txt"); // file megnyitása olvasásra
+string[] varos = new string[20];
+int db = 0;
+while (!be.EndOfStream)
+{
+varos[db] = be.ReadLine();
+Console.WriteLine(varos[db]);
+db++;
+}
+be.Close();
+Console.WriteLine("\n{0} városban járt az ügynök", db);
+// rendezés közvetlen kiválasztással
+for (int i = 0; i < db-1; i++)
+{
+for (int j = i + 1; j < db; j++)
+{
+if (varos[i].CompareTo(varos[j]) == 1)
+{
+string seged = varos[i];
+varos[i] = varos[j];
+varos[j] = seged;
+}
+}
+}
+for (int i = 0; i < db; i++)
+{ Console.WriteLine(varos[i]); }
+StreamWriter ki = new StreamWriter("rendezettvarosok.txt"); // file megnyitása írásra
+for (int i = 0; i < db; i++)
+{
+ki.WriteLine();
+}
+ki.Flush();
+ki.Close();
+}
+}
+}
+
+4. Feladat: Vágjunk szét egy sztringet a szóközök mentén! írjuk ki a sztringdarabok számát, és a
+"darabokat" (ismétlés programozásból)!
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+namespace ConsoleApplication15
+{
+class Program
+{
+static void Main(string[] args)
+{
+string szo = "Ég a napmelegtől a kopár szík sarja";
+string[] ideiglenes = szo.Split(' ');
+Console.WriteLine(ideiglenes.Length);
+foreach (string resz in ideiglenes)
+{
+Console.WriteLine(resz);
+}
+}
+}
+}
+5. Feladat: Az osztály 7 tanulójának adatait (első féléves jegy, második féléves jegy, név, a
+tanulok.txt fájlban tároljuk) Pl. 3 3 Feri az adatok szóközzel vannak elválasztva, minden tanuló
+adatait új sorban tároltuk. Olvassuk be az adatokat egy megfelelő struktúra tömbbe és írassuk ki
+a képernyőre!
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+namespace szabogabor
+{
+class Program
+{
+struct tanulok
+{
+public int elso, masodik;
+public string nev;
+}
+static void Main(string[] args)
+{
+StreamReader be = new StreamReader("tanulok.txt", Encoding.GetEncoding("iso-8859-2"),
+false); //ékezetes magyar karakterek miatt, ha nem utf8 kódolású a fájl
+tanulok []csop = new tanulok[7];
+int i=0;
+while (!be.EndOfStream)
+{
+
+string s = be.ReadLine();
+string []seged= s.Split(' ');
+csop[i].elso = int.Parse (seged[0]);
+csop[i].masodik = int.Parse(seged[1]);
+csop[i].nev = seged[2];
+i++;
+}
+for (i = 0; i < 7; i++)
+{
+Console.WriteLine("{0} {1} {2} ", csop[i].elso, csop[i].masodik, csop[i].nev);
+}
+be.Close();
+}
+}
+}
+6. Feladat: Egy utazó ügynök a vartav.txt állományban tárolja a januárban felkeresett városok nevét
+és a kiinduló helytől való távolságukat. A hónapban nem volt 20 városnál többen s a városok
+nevei szóközzel elválasztva vannak a távolságtól. (az ügynök mindig visszatér a kiinduló
+állomásra!) Az egyes városok mindig új sorban vannak. Készítsünk programot, mely kimutatja:
+ Hány városban járt az ügynök
+ Hány kiló métert utazott januárban.
+ Melyik a legtávolabbi város.
+ Melyik a legközelebbi város.
+ Volt-e 200 km-nél távolabbi úti cél.
+ Járt-e Vácon, és ha igen hányadik állomása volt.
+ Hányszor volt közeli városban (tavolsag <80km)
+ Rendezze az adatokat növekvő sorrendben távolság szerint, írassa ki képernyőre majd a
+rendezetttavolsag.txt állományba
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.IO;
+namespace pasztor
+{
+class Program
+{
+struct varos
+{
+public string nev;
+public int tav;
+}
+static void Main(string[] args)
+{
+StreamReader be = new StreamReader("vartav.txt", Encoding.GetEncoding("iso-8859-2"),
+false); //ékezetes magyar karakterek miatt
+varos []ugynok = new varos[20];
+int i=0;
+while ( !be.EndOfStream)
+
+{
+string s = be.ReadLine();
+string []seged= s.Split(' ');
+ugynok[i].nev = seged[0];
+ugynok[i].tav = int.Parse(seged[1]);
+Console.WriteLine("{0, -15} {1} ", ugynok[i].nev, ugynok[i].tav);
+s = be.ReadLine();
+i++;
+}
+be.Close();
+int db = i;
+// Hány városban járt az ügynök
+Console.WriteLine("{0} városban járt januárban az ügynök",db);
+// Hány kiló métert utazott januárban.
+int sum = 0;
+for (i = 0; i < db; i++)
+{
+sum += ugynok[i].tav;
+}
+Console.WriteLine("{0} km-t utazot az ügynok januárban ", sum*2);
+// Melyik a legtávolabbi város
+int max = 0;
+for (i = 0; i < db; i++)
+{
+if(ugynok[max].tav<ugynok[i].tav) max=i;
+}
+Console.WriteLine("{0} a legtávolabbi város ", ugynok[max].nev);
+// Melyik a legközelebbi város
+int min = 0;
+for (i = 0; i < db; i++)
+{
+if (ugynok[min].tav > ugynok[i].tav) min = i;
+}
+Console.WriteLine("{0} a legkozelebbi város ", ugynok[min].nev);
+//Volt- e 200 km-nél távolabbi úti cél.
+i = 0;
+while (i < db && ugynok[i].tav > 199)
+i++;
+if(i<db) Console.WriteLine("Volt 200 km-nél közelebbi város");
+//? járt-e Vácon, és ha igen hanyadik állomása volt.
+i = 0;
+while (i < db && ugynok[i].nev!="Vac")
+i++;
+if (i < db) Console.WriteLine("Járt vácon az {0}. napon",i+1);
+// Hányszor volt közeli városban (tavolsag < 80km)
+int db80 = 0;
+for (i = 0; i < db; i++)
+{
+if (ugynok[i].tav <80) db80++;
+}
+Console.WriteLine("{0} Alkalommal volt közeli városban ", db80);
+
+//Rendezze az adatokat növekvő sorrendben távolság szerint, írassa ki képernyőre majd a
+rendezetttavolsag.txt állományba
+for (i = 0; i < db-1; i++)
+{
+for (int j = i+1; j < db; j++)
+{
+if (ugynok[i].tav > ugynok[j].tav)
+{
+varos seged = ugynok[i];
+ugynok[i] = ugynok[j];
+ugynok[j] = seged;
+}
+}
+}
+StreamWriter ki = new StreamWriter("rendezettvarosok.txt");
+for (i = 0; i < db; i++)
+{
+Console.WriteLine("{0, -15} {1} ",ugynok[i].nev,ugynok[i].tav);
+ki.WriteLine("{0, -15} {1} ",ugynok[i].nev,ugynok[i].tav);
+}
+ki.Close();
+}
+}
+}
+7. Feladat: Egy 16 csapatos labdarúgó bajnokság egyik fordulójának eredményeit tároljuk a
+merkozes2.txt állományban. Ebben a fordulóban nem biztos, hogy 8 mérkőzés volt, néhány
+meccs elmaradt a rossz időjárás miatt. Minden mérkőzés eredménye új sorban van és a gólok
+száma valamint a csapatok nevei szóközzel vannak elválasztva. (3 2 ute vac). A fájl első sora
+tárolja a mérkőzések számát! Olvassa be a fájlt egy olyan adatszerkezetbe, amit az alábbi
+kérdésekhez fel tud használni (struktúra) és függvények segítségével írassa ki az alábbi
+kérdésekre a válaszokat!
+ Írassa ki hány mérkőzés volt a fordulóban!
+ Hány csapat nyert otthon.
+ Melyik csapat rúgta a legtöbb gólt.
+ Volt-e döntetlen?
+ Hány gólt lőtt az ute (tudjuk hogy játszott).
+ Rendezze a csapatokat névsor szerint növekvő sorrendbe és írja ki a csapatok.txt állományba
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.IO;
+namespace pasztor
+{
+class Program
+{
+struct fordulo
+{
+public int lott, kapott;
+
+public string nev1, nev2;
+};
+static void Main(string[] args)
+{
+StreamReader be = new StreamReader("merkozes2.txt");
+int db = int.Parse(be.ReadLine()); // ennyi merkőzés volt
+fordulo[] A = new fordulo[db];
+for (int i = 0; i < db; i++)
+{
+string s = be.ReadLine();
+string[] seged = s.Split(' ');
+A[i].lott = int.Parse(seged[0]);
+A[i].kapott = int.Parse(seged[1]);
+A[i].nev1 = seged[2];
+A[i].nev2 = seged[3];
+Console.WriteLine("{0} {1} {2} {3}", A[i].lott, A[i].kapott, A[i].nev1, A[i].nev2);
+}
+be.Close();
+//Írassa ki hány mérkőzés volt a fordulóban!
+Console.WriteLine("{0} Mérkőzést játszottak", db);
+//Hány csapat nyert otthon?
+int nyert = 0;
+for (int i = 0; i < A.Length; i++)
+{
+if (A[i].lott > A[i].kapott) nyert++;
+}
+Console.WriteLine("{0} Csapat nyert otthon ", nyert);
+//Melyik csapat rúgta a legtöbb gólt?
+int max = 0;
+string seg = "";
+for (int i = 0; i < db; i++)
+{
+if (A[i].lott > max) { max = A[i].lott; seg = A[i].nev1; };
+if (A[i].kapott > max) { max = A[i].kapott; seg = A[i].nev2; };
+}
+Console.WriteLine("{0} rugta a legtobb golt ", seg);
+//Volt-e döntetlen?
+int j = 0;
+while (j < db && A[j].lott != A[j].kapott)
+{ j++; }
+if (j < db) Console.WriteLine("Volt döntetlen");
+else Console.WriteLine("Nem volt döntetlen");
+//Hány gólt lőtt az ute(tudjuk hogy játszott)?
+j = 0;
+while (A[j].nev1 != "ute" && A[j].nev2 != "ute")
+{ j++; }
+if (A[j].nev1 != "ute") Console.WriteLine("Az ute {0} golt lott", A[j].lott);
+else Console.WriteLine("Az ute {0} golt lott", A[j].lott);
+//6 Rendezze a csapatokat névsor szerint növekvő sorrendbe
+//és írja ki a csapatok.txt állományba
+string[] rendezett = new string[2 * db];
+
+for (int i = 0; i < db; i++)
+{
+rendezett[i] = A[i].nev1;
+rendezett[i + db] = A[i].nev2;
+}
+Array.Sort(rendezett);// valamelyik rendezést kellene inkább algoritmus órákon használni!
+StreamWriter ki = new StreamWriter("rendezett.txt");
+for (int i = 0; i < 2 * db; i++)
+{
+Console.WriteLine(rendezett[i]);
+ki.WriteLine(rendezett[i]);
+}
+ki.Flush();
+ki.Close();
+}
+}
+}
+
+Negyedik Anyag
+
+1. Feladat: A feladatban bekérünk egy számot és eldöntjük, hogy prím-e? A feladatra 7 megoldást
+adunk, ahol is a kevésbé hatékony felől haladunk az egyre hatékonyabb megoldás felé. Próbáljuk
+ki nagy számra pl. 2 111 111 111, látható az első és második megoldás hosszabb futási ideje.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication4
+{
+class Program
+{
+static void Main(string[] args)
+{
+int i, szam, osztok = 0;
+Console.WriteLine ("Adjon meg egy számot");
+szam=int.Parse( Console.ReadLine());
+for (i = 2; i < szam - 1; i++)
+{ //1. megoldás
+if (szam % i == 0) osztok++;
+}
+if(osztok==0) Console.WriteLine("prim");
+else Console.WriteLine("nem prim");
+for (i = 2; i <= szam / 2; i++)
+{ //2. megoldás
+if (szam % i == 0) osztok++;
+}
+if (osztok == 0) Console.WriteLine("prim");
+else Console.WriteLine("nem prim");
+for (i = 2; i <= (int)Math.Sqrt(szam); i++)
+{
+if (szam % i == 0) osztok++; //3. megoldás
+}
+if (osztok == 0) Console.WriteLine("prim");
+else Console.WriteLine("nem prim");
+for (i = 2; i <= (int)Math.Sqrt(szam) && osztok == 0; i++)
+{ //4. megoldás
+if (szam % i == 0) osztok++;
+}
+if (osztok == 0) Console.WriteLine("prim");
+else Console.WriteLine("nem prim");
+for (i = 2; i <= (int)Math.Sqrt(szam); i++)
+{ //5. megoldás
+if (szam % i == 0) break;
+}
+if (i <= (int)Math.Sqrt(szam)) Console.WriteLine("nem prim");
+else Console.WriteLine("prim");
+i=2;
+while(i<=(int)Math.Sqrt(szam) && szam%i!=0) //6. megoldás
+
+i++;
+if(i<=(int)Math.Sqrt(szam)) Console.WriteLine("nem prim");
+else Console.WriteLine("prim");
+i = 2;
+int x =(int)Math.Sqrt(szam);
+while (i <= x && szam % i != 0) //7. megoldás
+i++;
+if (i <= x)Console.WriteLine("nem prim");
+else Console.WriteLine("prim");
+}
+}
+}
+2. Feladat: 2 Kockával dobunk egyszerre 1000–szer. Töltsünk fel egy tömböt, írassuk ki a
+képernyőre. Írassuk ki, hogy az egyes dobásokból mennyi volt. A feladatban bemutatunk 3
+megoldást a ciklus lefutási idő csökkentésére.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication4
+{
+class Program
+{
+static void Main(string[] args)
+{
+int i;
+int [] Kocka=new int[1000];
+//tombfeltoltés
+int [] ered= new int[6];
+Random r = new Random();
+for( i=0; i<1000; i++)
+{
+Kocka[i]=r.Next(1,7);
+Console.Write("{0} ",Kocka[i]);
+}
+// 1. - nagyon gyenge megoldás
+for( i=0; i<1000; i++)
+{
+if(Kocka[i]==1) ered[0]++;
+if(Kocka[i]==2) ered[1]++;
+if(Kocka[i]==3) ered[2]++;
+if(Kocka[i]==4) ered[3]++;
+if(Kocka[i]==5) ered[4]++;
+if(Kocka[i]==6) ered[5]++;
+}
+// 2. - gyenge megoldás
+/*
+for( i=0; i<1000; i++)
+{
+switch(Kocka[i])
+{
+
+case 1: ered[0]++;break;
+case 2: ered[1]++;break;
+case 3: ered[2]++;break;
+case 4: ered[3]++;break;
+case 5: ered[4]++;break;
+case 6: ered[5]++;break;
+}
+}
+*/
+//3. - hatékonyabb megoldás - elágazás helyett indexelt változók
+/*
+for (i = 0; i < 1000; i++)
+{
+ered[Kocka[i] - 1]++;
+}
+*/
+// kiíratás
+for (i=0; i<6; i++)
+Console.WriteLine("Az {0}-esek száma: {1}", i+1, ered[i]);
+}
+}
+}
+3. Feladat: Tároljunk egy tömbben 50 véletlenszerűen előállított számot 10 és 20 között. Gyűjtsük
+egy új tömbbe a különböző számokat, de egy szám csak egyszer szerepeljen az új tömbben!
+Írassuk ki a tömbök elemeit!
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication4
+{
+class Program
+{
+static void Main(string[] args)
+{
+int i;
+int [] tmb=new int[50];
+//tombfeltoltés
+int [] ered= new int[50];
+Random r = new Random();
+for( i=0; i<50; i++)
+{
+tmb[i]=r.Next(10,21);
+Console.Write("{0} ",tmb[i]);
+}
+// kiválogatás
+int db = 0; // az eredménytömbben lévő elemek száma
+for (i = 0; i < 50; i++)
+{
+int j = 0; // tulajdonképp el kell dönteni, hogy az adott elem benne van-e már az
+eredmény tömbben
+
+while (j < db && tmb[i] != ered[j])
+{
+j++;
+}
+if (j == db) // ha nincs benne tegyük bele
+{
+ered[db] = tmb[i];
+db++;
+}
+}
+Console.WriteLine("\nAz eredmény : ");
+for (i=0; i<db; i++)
+Console.Write(" {0}", ered[i]);
+}
+}
+}
+4. Feladat: Az 1952-ben Helsinkiben rendezett nyári olimpián nagyon szépen szerepeltek a magyar
+színekben induló olimpikonok. Ebben a feladatban az általuk elért helyezésekkel kapcsolatos
+számításokat kell elvégeznie.
+A megoldás során vegye figyelembe a következőket:
+A helsinki.txt állomány soronként tartalmazza az 1952-es nyári olimpián elért pontszerző
+helyezéseket (1−6. hely). Az első három helyezés egyben azt is jelentette, hogy arany-, ezüst- vagy
+bronzérmet szerzett a sportoló vagy a csapat. Az adatokat a szóköz karakter választja el
+egymástól.
+Például: 3 4 atletika 4x100m_valtofutas
+A sorokban lévő adatok rendre a következők:
+− Az elért helyezés. Például: „3”
+− A helyezést elérő sportoló vagy csapat esetén sportolók száma. Például: „4”
+− A sportág neve. Például: „atletika”
+− A versenyszám neve. Például: „4x100m_valtofutas”
+ Készítsen programot a következő feladatok megoldására, amelynek a forráskódját
+helsinki1952 néven mentse el!
+ A főfüggvényben olvassa be a helsinki.txt állományban lévő adatokat és tárolja el egy
+olyan adatszerkezetben, amely a további feladatok megoldására alkalmas! A fájlban
+legfeljebb 200 sor lehet.
+ Határozza meg és írja ki a képernyőre az eredményeket és írja ki, hogy hány pontszerző
+helyezést értek el a magyar olimpikonok!
+ Írja ki az első helyezettek számát!
+ Melyik sportág ahol egy versenyszámban a legtöbb versenyzőnk ért el helyezést?
+ Írja ki a képernyőre az érmes úszók versenyszámait és helyezéseit pl 400m_gyorsuszas 1
+using System;
+using System.Collections.Generic;
+using System.IO;
+namespace helsinki1952
+{
+class helsinki
+{
+
+struct verseny
+{
+public int helyezés;
+public int versszama;
+
+public string sportag;
+public string versenyszam;
+}
+static void Main()
+{
+
+verseny[] tmb = new verseny[200];
+StreamReader be = new StreamReader("helsinki.txt");
+int i=0;
+while (be.Peek() != -1)
+
+{
+
+string s = be.ReadLine();
+string[] seged = s.Split(' ');
+tmb[i].helyezés = int.Parse(seged[0]);
+tmb[i].versszama = int.Parse(seged[1]);
+tmb[i].sportag = seged[2];
+tmb[i].versenyszam =seged[3];
+i++;
+
+}
+//Határozza meg és írja ki a képernyőre az eredményeket és írja ki, hogy hány pontszerző helyezést
+értek el a magyar olimpikonok!
+int db = i;
+for (i = 0; i < db; i++)
+{
+Console.WriteLine(" {0} {1} {2} {3} ", tmb[i].helyezés, tmb[i].versszama, tmb[i].sportag,
+tmb[i].versenyszam);
+}
+Console.WriteLine(" A helyezettek száma {0}", db);
+//Írja ki az első helyezettek számát!
+int Elsodb = 0; ;
+for (i = 0; i < db; i++)
+{
+if (tmb[i].helyezés == 1) Elsodb++;
+}
+Console.WriteLine(" Az elsok száma {0}", Elsodb);
+//5.Melyik sportág ahol egy versenyszámban a legtöbb versenyzőnk ért el helyezést?
+int max = 0;
+for (i = 0; i < db; i++)
+{
+if (tmb[i].versszama > tmb[max].versszama) max = i;
+}
+Console.WriteLine(" A legtobb versenyzonk a {0} sportagban volt helyezett",tmb[max].sportag);
+//Írja ki a képernyőre az érmes úszók versenyszámait és helyezéseit pl 400m_gyorsuszas 1
+for (i = 0; i < db; i++)
+{
+
+if (tmb[i].helyezés < 4 && tmb[i].sportag == "uszas")
+{ Console.WriteLine(" {0} {1} ",tmb[i].versenyszam, tmb[i].helyezés); }
+}
+}
+}
+}
