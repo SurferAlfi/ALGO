@@ -1,3 +1,38 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+class Program {
+    static void Main() {
+        string fileName = "rudugras.txt";
+
+        // A Dictionary to store the data
+        Dictionary<string, Tuple<int, int>> jumpers = new Dictionary<string, Tuple<int, int>>();
+
+        // Read the file line by line
+        using (StreamReader reader = new StreamReader(fileName)) {
+            string line;
+            while ((line = reader.ReadLine()) != null) {
+                string[] parts = line.Split(' ');
+                string name = parts[0];
+                int height = int.Parse(parts[1]);
+                int bibNumber = int.Parse(parts[2]);
+                jumpers.Add(name, Tuple.Create(height, bibNumber));
+            }
+        }
+
+        // Print the data for testing purposes
+        foreach (KeyValuePair<string, Tuple<int, int>> jumper in jumpers) {
+            Console.WriteLine(jumper.Key + " " + jumper.Value.Item1 + " " + jumper.Value.Item2);
+        }
+    }
+}
+
+
+
+
+
+
 ELső Anyag
 
 Egyszerű példa feladatok az elemi programozási tételekre. Adott egy 15 elemű tömb, mely 0 és 100
